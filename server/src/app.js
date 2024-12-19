@@ -54,20 +54,30 @@ io.on('connection', (socket) => {
 });
 
 
-function authenticateUser(req,res,next)
-{
-    console.log("Got Request Authentication")
-    const token = req.headers['authorization'].split(' ')[1];
-    console.log(token);
-    const user=jwt.verify(token,SECRET_KEY);
-    if(!user){
-        res.status(404).json("Invalid Token");
-        return;
+function authenticateUser(req, res, next) {
+    console.log("Got Request Authentication");
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).json("Authorization header missing");
     }
-    req.user=user;
-    console.log(req.user)
-    next();
+
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json("Token missing");
+    }
+
+    try {
+        const user = jwt.verify(token, SECRET_KEY);
+        req.user = user; // Attach user to request object
+        console.log(req.user);
+        next();
+    } catch (error) {
+        console.error('JWT verification error:', error);
+        return res.status(401).json("Invalid Token");
+    }
 }
+
+
 
 app.post("/login",async (req,res)=>{
     try{
@@ -108,7 +118,7 @@ app.post("/lead",authenticateUser,async (req,res)=>{
         console.log(req.body);
         const user=req.user;
         console.log(user)
-        const newLead=new Lead({userId:user.userId,...req.body});
+        const newLead = new Lead({ userId: user.userId, ...req.body });
         await newLead.save();
         res.status(201).json(newLead);
     }
