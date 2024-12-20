@@ -30,7 +30,6 @@ Set up your environment:
 Create a .env file in the root directory.
 Add necessary environment variables (e.g., database URI, JWT secret).
 Start the server:
-
 bash
 Copy code
 npm start
