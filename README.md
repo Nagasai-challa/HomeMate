@@ -43,4 +43,4 @@ Screenshots
 ![User Dashboard](outputs/output3.png)
 ![Chat System](outputs/output4.png)
 Deployment
-You can access the deployed Home Mate application at https://home-mate2024.vercel.app/.
+You can access the deployed Home Mate application at [ https://home-mate2024.vercel.app/](https://home-mate2024.vercel.app/).
