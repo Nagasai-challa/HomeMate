@@ -45,7 +45,7 @@ const Register = () => {
         setMessage("Failed To Register");
       }
     } catch (error) {
-      setMessage("Failed To Register");
+      setMessage("Something Went Wrong");
     }
   }
 

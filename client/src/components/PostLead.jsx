@@ -27,22 +27,24 @@ const PostLead = () => {
 
   const uploadImageToCloudinary = async () => {
     if (!imageFile) return null;
-
+  
     const formData = new FormData();
     formData.append('file', imageFile);
     formData.append('upload_preset', 'homemate');
-
+  
     try {
       const response = await axios.post(
         'https://api.cloudinary.com/v1_1/du3dhdsdh/image/upload',
         formData
       );
+      console.log('Image uploaded successfully:', response.data.secure_url);
       return response.data.secure_url;
     } catch (error) {
       console.error('Image upload error:', error);
       return null;
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

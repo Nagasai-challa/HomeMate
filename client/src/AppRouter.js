@@ -7,7 +7,6 @@ import Register from './components/Register';
 import Login from './components/Login';
 import GetMyLeads from './components/GetMyLeads';
 import EditLead from './components/EditLead';
-import Chat from './components/Chat';
 
 const AppRouter = () => {
   return (
@@ -20,7 +19,6 @@ const AppRouter = () => {
             <Route path='/login' element={<Login/>}/>
             <Route path='/my-leads' element={<GetMyLeads/>}/>
             <Route path='/edit-lead/:id' element={<EditLead/>}/>
-            <Route path='/chat' element={<Chat/>}/>
         </Routes>
     </BrowserRouter>
   )

@@ -6,8 +6,6 @@ const cors = require('cors');
 const User=require("./models/userSchema");
 const jwt=require("jsonwebtoken")
 const coookieParser=require("cookie-parser");
-const { Server } = require('socket.io');
-const http=require("http");
 
 const app=express();
 const PORT=5000;
@@ -17,41 +15,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(coookieParser());
-
-const server = http.createServer(app); // Create HTTP server
-const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:3000/chat',
-        methods: ['GET', 'POST'],
-    },
-});
-
-// Handle Socket.IO connections
-io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
-
-    socket.on('joinRoom', (roomId) => {
-        socket.join(roomId);
-        console.log(`User ${socket.id} joined room ${roomId}`);
-    });
-
-    socket.on('leaveRoom', (roomId) => {
-        socket.leave(roomId);
-        console.log(`User ${socket.id} left room ${roomId}`);
-    });
-
-    // Listen for chat messages
-    socket.on('sendMessage', (data) => {
-        const { roomId, message } = data;
-        console.log("Message Received:", message);
-        io.to(roomId).emit('receiveMessage', message); // Send to users in the room
-    });
-
-    // Handle disconnections
-    socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
-    });
-});
 
 
 function authenticateUser(req,res,next)
@@ -69,23 +32,21 @@ function authenticateUser(req,res,next)
     next();
 }
 
-app.post("/login",async (req,res)=>{
-    try{
-        console.log("Got Request for Login");
+app.post("/login", async (req, res) => {
+    try {
+        console.log("Got Request For Login");
         console.log(req.body)
-        const user=await User.findOne(req.body);
-        if(!user){
-            res.json("User Not Found");
-            return;
+        const user = await User.findOne(req.body);
+        if (!user) {
+            return res.status(404).json("User Not Found");
         }
-        const token=jwt.sign({userId:user._id},SECRET_KEY);
-        console.log(token)
-        res.json({token});
+        const token = jwt.sign({ userId: user._id, email: user.email }, SECRET_KEY); // Include email in token
+        res.json({ token });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    catch(error){
-        res.json({message:error.message});
-    }
-})
+});
+
 
 app.post("/register",async (req,res)=>{
     try{
@@ -190,13 +151,12 @@ app.delete("/lead/:id",async (req,res)=>{
 
 
 
-mongoose.connect("mongodb+srv://nagasaichalla1234:8sD7cd0BCuJlHzdD@cluster0.rzyaz.mongodb.net/HomeMate?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect("mongodb+srv://nagasai:nagasai@nagasai.eqxip.mongodb.net/HomeMate?retryWrites=true&w=majority&appName=nagasai")
 .then(()=>{
     console.log("DataBase Connected Successfully");
-    server.listen(PORT,()=>{
+    app.listen(PORT,()=>{
         console.log(`Server is running on port ${PORT}`);
     })
-    io.listen(server);
 })
 .catch((err)=>{
     console.log(err);
