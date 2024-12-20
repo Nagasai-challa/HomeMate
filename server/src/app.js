@@ -88,7 +88,7 @@ app.post("/lead",authenticateUser,async (req,res)=>{
     }
 })
 
-app.get("/lead",authenticateUser,async (req,res)=>{
+app.get("/lead",async (req,res)=>{
     console.log("Got Request for Gel all leads")
     try{
         const leads=await Lead.find();
