@@ -7,6 +7,7 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+  // Validate form fields
   const validateForm = () => {
     if (!email || !password) {
       setError("Both fields are required.");
@@ -20,16 +21,18 @@ const Login = () => {
     return true;
   };
 
+  // Handle form submission
   async function handleSubmit(e) {
     e.preventDefault();
     
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("https://homemate-au6s.onrender.com/login", {
         email,
         password
       });
+
       if (response.status === 200) {
         const token = response.data.token;
         console.log(token);
@@ -38,20 +41,20 @@ const Login = () => {
         setEmail('');
         setPassword('');
       } else {
-        setMessage("Failed To Login");
+        setError("Failed To Login. Please try again.");
       }
     } catch (error) {
-      setMessage("Not able to make Request");
+      setError("An error occurred while making the request. Please check your network or server.");
     }
   }
 
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-      <form className='bg-blue-500 shadow-md rounded-lg w-96 p-8 space-y-4'
-            onSubmit={handleSubmit}>
-        {message && <p className='text-center text-green-200'>{message}</p>}
-        {error && <p className='text-center text-red-200'>{error}</p>}
-        
+      <form className='bg-blue-500 shadow-md rounded-lg w-96 p-8 space-y-4' onSubmit={handleSubmit}>
+        {/* Display success message if available */}
+        {message && <p className='text-center text-green-500'>{message}</p>}
+        {error && <p className='text-center text-red-500'>{error}</p>}
+
         <label className='block font-bold text-white text-xl'>Email</label>
         <input 
           className='w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300'
@@ -59,6 +62,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           type="email" 
           placeholder="Enter your email"
+          required
         />
 
         <label className='block font-bold text-white text-xl'>Password</label>
@@ -68,6 +72,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           type="password" 
           placeholder="Enter your password"
+          required
         />
 
         <button 

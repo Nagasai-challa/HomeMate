@@ -9,7 +9,7 @@ const GetMyLeads = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/my-lead", {
+        const response = await axios.get("https://homemate-au6s.onrender.com/my-lead", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }
@@ -28,7 +28,7 @@ const GetMyLeads = () => {
   const deleteLead = async (id) => {
     if (window.confirm("Are you sure you want to delete this lead?")) {
       try {
-        const response = await axios.delete(`http://localhost:5000/lead/${id}`, {
+        const response = await axios.delete(`https://homemate-au6s.onrender.com/lead/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }

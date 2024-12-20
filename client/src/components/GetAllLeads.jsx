@@ -14,7 +14,7 @@ const GetAllLeads = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/lead", {
+        const response = await axios.get("https://homemate-au6s.onrender.com/lead", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }

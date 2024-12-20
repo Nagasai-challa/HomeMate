@@ -19,7 +19,7 @@ const EditLead = () => {
     useEffect(() => {
         async function getLead() {
             try {
-                const response = await axios.get(`http://localhost:5000/lead/${id}`);
+                const response = await axios.get(`https://homemate-au6s.onrender.com/lead/${id}`);
                 if (response.status === 200) {
                     const data = response.data;
                     setState(data.state);
@@ -46,7 +46,7 @@ const EditLead = () => {
     };
 
     const uploadImageToCloudinary = async () => {
-        if (!imageFile) return null;
+        if (!imageFile) return imageUrl; // Return current image URL if no new file selected
 
         const formData = new FormData();
         formData.append('file', imageFile);
@@ -60,7 +60,8 @@ const EditLead = () => {
             return response.data.secure_url;
         } catch (error) {
             console.error('Image upload error:', error);
-            return null;
+            setMessage("Image upload failed. Please try again.");
+            return imageUrl; // Fallback to existing image URL
         }
     };
 
@@ -68,12 +69,10 @@ const EditLead = () => {
         e.preventDefault();
 
         try {
-            // Upload image to Cloudinary first
             let cloudinaryUrl = await uploadImageToCloudinary();
             if (!cloudinaryUrl) cloudinaryUrl = imageUrl;
 
-            // Submit lead data with image URL
-            const response = await axios.put(`http://localhost:5000/lead/${id}`, {
+            const response = await axios.put(`https://homemate-au6s.onrender.com/lead/${id}`, {
                 state,
                 city,
                 area,
@@ -94,7 +93,7 @@ const EditLead = () => {
             }
         } catch (error) {
             console.error("Update Error:", error);
-            setMessage("Not Able to Update Lead");
+            setMessage("Failed to update lead. Please try again later.");
         }
     };
 
