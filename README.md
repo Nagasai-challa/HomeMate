@@ -35,12 +35,13 @@ bash
 Copy code
 npm start
 Usage
-Visit http://localhost:3000 to access the Home Mate application.
+Visit Home Mate to access the Home Mate application.
 Sign up or log in to start exploring property listings.
 Interact with listings, upload your property images, and use the chat feature to communicate with other users.
 Screenshots
-## Screenshots
 ![Home Page](outputs/image1.png)
 ![Property Listings](outputs/image2.png)
 ![User Dashboard](outputs/image3.png)
 ![Chat System](outputs/image4.png)
+Deployment
+You can access the deployed Home Mate application at https://home-mate2024.vercel.app/.
