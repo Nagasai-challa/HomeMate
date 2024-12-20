@@ -51,12 +51,6 @@ const Header = () => {
           </button>
         </div>
         <div className="flex space-x-10">
-          <button
-            className="text-xl font-semibold"
-            onClick={() => window.location.assign("/post-lead")}
-          >
-            Post Property
-          </button>
           <button onClick={handleToggleDropdown} className="relative">
             <FaUserAlt size={30} />
             {isDropdownOpen ? <FaCaretUp /> : <FaCaretDown />} {/* Indicator */}

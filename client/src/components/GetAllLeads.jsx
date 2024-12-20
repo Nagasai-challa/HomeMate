@@ -23,7 +23,7 @@ const GetAllLeads = () => {
         setAllLeads(response.data);
         setError(null);
       } catch (err) {
-        setError("Failed to fetch leads. Please try again later.");
+        setError("Failed to fetch leads. Please log in to view the leads or try again later..");
       } finally {
         setLoading(false);
       }
